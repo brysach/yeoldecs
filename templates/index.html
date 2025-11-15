@@ -76,5 +76,14 @@
             }
         };
     </script>
+    <button onclick="callGenerateStoryFunc()">Story Time!</button>
+
+    <script>
+    function callGenerateStoryFunc() {
+        fetch("/generate_story_func")
+            .then(r => r.text())
+            .then(t => console.log(t))
+    }
+    </script>
 </body>
 </html>
