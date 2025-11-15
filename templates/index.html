@@ -77,14 +77,48 @@
 
         document.getElementById("storyBox").innerText = storyData;
 
+        let isTTSGenerated = false;
+        let isPlaying = false;
+        let i = 0;
+        let audio;
         document.getElementById("speak").onclick = async () => {
             let t = storyData;
 
-            try {
-                const audio = await puter.ai.txt2speech(t);
-                audio.play();
-            } catch (err) {
-                console.log("TTS error:", err);
+            if (!isTTSGenerated){
+                i++;
+                //document.getElementById("storyBox").innerText = i;
+                try {
+                    document.getElementById("speak").innerText = "Before";
+                    //puter.auth.signIn();
+                    audio = await puter.ai.txt2speech(t, {
+                voice: "Geraint",
+                language: "en-GB-WLS"
+            });
+                    audio.play();
+                    document.getElementById("speak").innerText = "Pause";
+                    isPlaying = true;   
+                    isTTSGenerated = true;   
+
+                    //document.getElementById("storyBox").innerText = "generated";              
+
+                } catch (err) {
+                    console.log("TTS error:", err);
+                }
+            } else {
+                //document.getElementById("storyBox").innerText = "doesnt work";
+                if (isPlaying) {
+                    //document.getElementById("storyBox").innerText = "stop playing";
+                    document.getElementById("speak").innerText = "Unpause";
+                    audio.pause();
+                    isPlaying = false;
+                    
+
+                } else {
+                    //document.getElementById("storyBox").innerText = "start";
+                    document.getElementById("speak").innerText = "Pause";
+                    audio.play();
+                    isPlaying = true;
+                }
             }
         };
     </script>
