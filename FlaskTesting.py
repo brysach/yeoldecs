@@ -49,7 +49,7 @@ def video_feed():
 if __name__ == '__main__':
     # Run the app
     # host='0.0.0.0' makes it accessible on your network
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
 
 # Note: When the Flask app stops, it doesn't automatically release the camera.
 # You might need to handle this more gracefully in a production app,
