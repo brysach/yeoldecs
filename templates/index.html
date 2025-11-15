@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenCV Live Stream</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            gap: 30px;
+            font-family: "Cinzel", serif;
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             background-color: #183766;
+            color: black;
             margin: 0;
             cursor: url(http://www.rw-designer.com/cursor-extern.php?id=237439), default;
         }
@@ -34,6 +39,12 @@
             display: block;
             width: 135%;
         }
+        #storyBox{
+            background-image: url("/static/paper.jpg");
+            padding: 20px;
+            max-width: 400px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -44,9 +55,8 @@
         -->
         <img src="{{ url_for('video_feed') }}" alt="Video Stream">
     </div>
-
+    <div>
     <button onclick="callPictureTakingFunc()">Take a picture!</button>
-
     <script>
     function callPictureTakingFunc() {
         fetch("/take_picture_func")
@@ -54,13 +64,13 @@
             .then(t => console.log(t))
     }
     </script>
-
-
+    <script src="https://js.puter.com/v2/"></script>
+    <button id="speak">Speak</button>
+    </div>
 
     <div id="storyBox">hi</div>
     
-    <script src="https://js.puter.com/v2/"></script>
-    <button id="speak">Speak</button>
+    
 
     <script>
         var storyData = {{ storyData|tojson }};
