@@ -31,11 +31,21 @@ def generate_frames():
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
 
+
+
+def process_and_save():
+    result = "TEMPORARY TESTING" #replace with actual data from AI
+    with open("output.txt") as f:
+        data = f.read()
+    return render_template("index.html", storyData=data)
+
+
+
 @app.route('/')
 def index():
     """Serves the main HTML page that will display the video stream."""
     # render_template looks for files in the 'templates' folder
-    return render_template('index.html')
+    return process_and_save()
 
 @app.route('/video_feed')
 def video_feed():
@@ -46,10 +56,11 @@ def video_feed():
     return Response(generate_frames(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+
 if __name__ == '__main__':
     # Run the app
     # host='0.0.0.0' makes it accessible on your network
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5002, debug=True)
 
 # Note: When the Flask app stops, it doesn't automatically release the camera.
 # You might need to handle this more gracefully in a production app,

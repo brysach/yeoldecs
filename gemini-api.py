@@ -13,4 +13,9 @@ response = client.models.generate_content(
     contents = ["Can you make up a short story based off these two images", uploaded_file1, uploaded_file2]
 )
 
+story_text = response.text
+
+with open("output.txt", "w", encoding="utf-8") as f:
+    f.write(story_text)
+
 print(response.text)
