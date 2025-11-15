@@ -12,29 +12,31 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background-color: #f0f2f5;
+            background-color: #183766;
             margin: 0;
         }
         h1 {
             color: #333;
         }
         .video-container {
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            display: grid;
+            place-content: center;
+            border: 5px solid #ccc;
+            aspect-ratio: 1;
+            height: fit-content;
+            width: 300px;
+            border-radius: 300px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             background-color: #000;
         }
         img {
             display: block;
-            width: 100%;
-            max-width: 640px; /* You can adjust this */
-            height: auto;
+            width: 135%;
         }
     </style>
 </head>
 <body>
-    <h1>Live Camera Feed</h1>
     <div class="video-container">
         <!-- 
           The 'src' attribute points to our /video_feed endpoint.
