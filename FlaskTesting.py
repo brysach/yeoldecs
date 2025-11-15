@@ -2,6 +2,9 @@ import cv2
 #import numpy as np
 from flask import Flask, render_template, Response, request
 
+import gemini_api
+from gemini_api import generateFantasyStory
+
 app = Flask(__name__)
 
 # Initialize the camera
@@ -9,7 +12,7 @@ app = Flask(__name__)
 camera = cv2.VideoCapture(0)
 
 image = 0
-i = 1
+i = 0
 
 def generate_frames():
     """Generator function to capture frames from the camera and yield them."""
@@ -40,10 +43,10 @@ def generate_frames():
             
 def take_picture():
     global image, i
-    i += 1
     print("taking a picture")
     output_path = "./images/img" + str(i) + ".png"
     success = cv2.imwrite(output_path, image)
+    i += 1
 
 def process_and_save():
     result = "TEMPORARY TESTING" #replace with actual data from AI
@@ -73,6 +76,12 @@ def picture_taking_function():
     print("running")
     take_picture()
     return "pictures taken"
+
+@app.route("/generate_story_func")
+def story_generating_function():
+    print("running")
+    generateFantasyStory()
+    return "story generated"
 
 
 if __name__ == '__main__':
