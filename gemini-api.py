@@ -1,6 +1,7 @@
 from google import genai
 import os
 from os import listdir
+from PIL import Image
 
 # print("GEMINI_API_KEY =", repr(os.getenv("GEMINI_API_KEY")))
 
@@ -15,11 +16,11 @@ def generateFantasyStory():
     images_array.clear()
     for image_name in os. listdir(folder_dir):
         if image_name.endswith(".png"):
-           images_array.append(os.path.join(folder_dir, image_name))
+           images_array.append(Image.open(os.path.join(folder_dir, image_name)))
 
     response = client.models.generate_content(
         model = "gemini-2.5-flash",
-        contents = ["Can you make up a five-paragraph fantasy story based off these images", str(images_array)]
+        contents = ["Can you make up a three paragraph fantasy story based off these images, focusing on the items", images_array]
     )
 
     story_text = response.text
