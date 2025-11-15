@@ -42,5 +42,14 @@
         -->
         <img src="{{ url_for('video_feed') }}" alt="Video Stream">
     </div>
+
+
+    <div id="storyBox">hi</div>
+
+    <script>
+        var storyData = {{ storyData|tojson }};
+
+        document.getElementById("storyBox").innerText = storyData;
+    </script>
 </body>
 </html>
