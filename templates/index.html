@@ -165,14 +165,25 @@
         <img src="{{ url_for('video_feed') }}" alt="Video Stream">
     </div>
     <div style="display: flex; flex-direction: column;">
-    <button onclick="callPictureTakingFunc()">Take a picture!</button>
-    <script>
-    function callPictureTakingFunc() {
-        fetch("/take_picture_func")
-            .then(r => r.text())
-            .then(t => console.log(t))
-    }
-    </script>
+<audio id="sfx" src="{{ url_for('static', filename='sword.wav') }}" preload="auto"></audio>
+<audio id="bgMusic" src="{{ url_for('static', filename='bg.wav') }}" preload="auto" loop></audio>
+
+<button id="picBtn">Take a picture!</button>
+
+<script>
+const sfx = document.getElementById("sfx");
+
+document.getElementById("picBtn").addEventListener("click", () => {
+    // Force restart from beginning
+    sfx.currentTime = 0;
+    sfx.play().catch(err => console.log("Audio error:", err));
+
+    fetch("/take_picture_func")
+        .then(r => r.text())
+        .then(t => console.log(t));
+});
+</script>
+
     <script src="https://js.puter.com/v2/"></script>
     <button onclick="callGenerateStoryFunc()">Story Time!</button>
     <button id="speak">Speak</button>
@@ -186,7 +197,7 @@
 
     <div id="storyBox">hi</div>
     
-    
+
     
 
     <script>
@@ -194,53 +205,61 @@
 
         document.getElementById("storyBox").innerText = storyData;
 
-        let isTTSGenerated = false;
-        let isPlaying = false;
-        let i = 0;
-        let audio;
-        document.getElementById("speak").onclick = async () => {
-            let t = storyData;
+ let isTTSGenerated = false;
+let isPlaying = false;
+let i = 0;
+let audio;
+const bgMusic = document.getElementById("bgMusic");
 
-            if (!isTTSGenerated){
-                i++;
-                //document.getElementById("storyBox").innerText = i;
-                try {
-                    document.getElementById("speak").innerText = "Before";
-                    //puter.auth.signIn();
-                    audio = await puter.ai.txt2speech(t, {
+document.getElementById("speak").onclick = async () => {
+    let t = storyData;
+
+    if (!isTTSGenerated){
+        i++;
+        try {
+            document.getElementById("speak").innerText = "Before";
+
+            audio = await puter.ai.txt2speech(t, {
                 voice: "Geraint",
                 language: "en-GB-WLS"
             });
-                    audio.play();
-                    document.getElementById("speak").innerText = "Pause";
-                    isPlaying = true;   
-                    isTTSGenerated = true;   
 
-                    //document.getElementById("storyBox").innerText = "generated";              
+            // Start both
+            audio.currentTime = 0;
+            bgMusic.currentTime = 0;
 
-                } catch (err) {
-                    console.log("TTS error:", err);
-                }
-            } else {
-                //document.getElementById("storyBox").innerText = "doesnt work";
-                if (isPlaying) {
-                    //document.getElementById("storyBox").innerText = "stop playing";
-                    document.getElementById("speak").innerText = "Unpause";
-                    audio.pause();
-                    isPlaying = false;
-                    
+            audio.play();
+            bgMusic.play();
 
-                } else {
-                    //document.getElementById("storyBox").innerText = "start";
-                    document.getElementById("speak").innerText = "Pause";
-                    audio.play();
-                    isPlaying = true;
-                }
-            }
-        };
-    </script>
+            document.getElementById("speak").innerText = "Pause";
+            isPlaying = true;   
+            isTTSGenerated = true;   
 
-    <script>
+        } catch (err) {
+            console.log("TTS error:", err);
+        }
+
+    } else {
+        if (isPlaying) {
+            // Pause both
+            audio.pause();
+            bgMusic.pause();
+
+            document.getElementById("speak").innerText = "Unpause";
+            isPlaying = false;
+
+        } else {
+            // Resume both
+            audio.play();
+            bgMusic.play();
+
+            document.getElementById("speak").innerText = "Pause";
+            isPlaying = true;
+        }
+    }
+};
+
+
     function callGenerateStoryFunc() {
         fetch("/generate_story_func")
             .then(r => r.text())
