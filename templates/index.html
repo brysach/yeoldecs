@@ -19,6 +19,7 @@
             background-color: #183766;
             color: black;
             margin: 0;
+            background-image: url("/static/background.png");
             cursor: url(http://www.rw-designer.com/cursor-extern.php?id=237439), default;
         }
         h1 {
@@ -37,7 +38,7 @@
         }
         img {
             display: block;
-            width: 135%;
+            width: 180%;
         }
         #storyBox{
             background-image: url("/static/paper.jpg");
@@ -55,7 +56,7 @@
         -->
         <img src="{{ url_for('video_feed') }}" alt="Video Stream">
     </div>
-    <div>
+    <div style="display: flex; flex-direction: column;">
     <button onclick="callPictureTakingFunc()">Take a picture!</button>
     <script>
     function callPictureTakingFunc() {
@@ -65,10 +66,13 @@
     }
     </script>
     <script src="https://js.puter.com/v2/"></script>
+    <button onclick="callGenerateStoryFunc()">Story Time!</button>
     <button id="speak">Speak</button>
     </div>
 
     <div id="storyBox">hi</div>
+    
+<img src="https://thispersondoesnotexist.com/" style="width:150px; height:auto;">
     
     
 
@@ -122,7 +126,6 @@
             }
         };
     </script>
-    <button onclick="callGenerateStoryFunc()">Story Time!</button>
 
     <script>
     function callGenerateStoryFunc() {
