@@ -24,7 +24,7 @@ def generateFantasyStory():
 
     response = client.models.generate_content(
         model = "gemini-2.5-flash",
-        contents = ["Can you make up a three paragraph fantasy story based off these images, focusing on the items", images_array]
+        contents = ["Can you make up a one conclusive paragraph fantasy story based off these images, focusing on the items", images_array]
     )
 
     story_text = response.text
