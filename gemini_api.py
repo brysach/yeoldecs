@@ -2,6 +2,7 @@ from google import genai
 import os
 from os import listdir
 from PIL import Image
+import time
 
 # print("GEMINI_API_KEY =", repr(os.getenv("GEMINI_API_KEY")))
 
@@ -18,7 +19,7 @@ def generateFantasyStory():
         if image_name.endswith(".png"):
             filename = os.path.join(folder_dir, image_name)
             images_array.append(Image.open(filename))
-            os.remove(filename)
+            #os.remove(filename)
 
     prompt = (
         "You are a friendly storyteller for children.\n"
@@ -37,7 +38,11 @@ def generateFantasyStory():
         model = "gemini-2.5-flash",
         contents = [prompt, images_array]
     )
-
+    for image_name in os. listdir(folder_dir):
+        if image_name.endswith(".png"):
+            filename = os.path.join(folder_dir, image_name)
+            os.remove(filename)
+    
     story_text = response.text
 
     with open("output.txt", "w", encoding="utf-8") as f:

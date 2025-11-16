@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -8,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reading Crystal Ball</title>
     <style>
-       
         #help-icon {
             position: fixed;
             top: 20px;
@@ -31,7 +31,7 @@
 
         #help-icon:hover {
             background: linear-gradient(#6e472b, #47301f);
-            box-shadow: 0 6px 0 #2a1a10, 0 0 12px rgba(212,178,127,0.6);
+            box-shadow: 0 6px 0 #2a1a10, 0 0 12px rgba(212, 178, 127, 0.6);
             transform: translateY(-2px);
         }
 
@@ -47,7 +47,7 @@
             padding: 20px;
             color: #f5e4c3;
             font-family: "Cinzel", serif;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
             display: none;
             animation: fadeIn 0.2s ease-out;
         }
@@ -69,7 +69,7 @@
             width: 100%;
             padding: 10px;
             font-size: 18px;
-            color:#2a1a10;
+            color: #2a1a10;
             font-family: "Cinzel", serif;
             background: #d4b27f;
             border: none;
@@ -82,8 +82,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         body {
@@ -102,35 +109,39 @@
             background-size: cover;
             cursor: url(http://www.rw-designer.com/cursor-extern.php?id=237439), default;
         }
+
         h1 {
             color: #333;
         }
-    button {
-        margin: 10px;
-        font-size: 24px;
-        padding: 12px 28px;
-        font-family: "Cinzel", serif;
-        background: linear-gradient(#5c3b24, #3a2416); /* dark wood */
-        border: 3px solid #d4b27f; /* gold trim */
-        border-radius: 10px;
-        color: #f5e4c3;
-        text-shadow: 0 0 3px #000;
-        box-shadow: 0 4px 0 #2a1a10, 0 6px 12px rgba(0,0,0,0.4);
-        cursor: pointer;
-        transition: 0.15s;
-    }
 
-    button:hover {
-        background: linear-gradient(#6e472b, #47301f);
-        box-shadow: 0 6px 0 #2a1a10, 0 10px 16px rgba(0,0,0,0.5),
-                    0 0 12px rgba(212,178,127,0.6);
-        transform: translateY(-2px);
-    }
+        button {
+            margin: 10px;
+            font-size: 24px;
+            padding: 12px 28px;
+            font-family: "Cinzel", serif;
+            background: linear-gradient(#5c3b24, #3a2416);
+            /* dark wood */
+            border: 3px solid #d4b27f;
+            /* gold trim */
+            border-radius: 10px;
+            color: #f5e4c3;
+            text-shadow: 0 0 3px #000;
+            box-shadow: 0 4px 0 #2a1a10, 0 6px 12px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: 0.15s;
+        }
 
-    button:active {
-        transform: translateY(2px);
-        box-shadow: 0 2px 0 #2a1a10, 0 4px 8px rgba(0,0,0,0.4);
-    }
+        button:hover {
+            background: linear-gradient(#6e472b, #47301f);
+            box-shadow: 0 6px 0 #2a1a10, 0 10px 16px rgba(0, 0, 0, 0.5),
+                0 0 12px rgba(212, 178, 127, 0.6);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #2a1a10, 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
 
         .video-container {
             display: grid;
@@ -143,17 +154,20 @@
             overflow: hidden;
             box-shadow: 0 100px 100px rgba(0, 0, 0, 0.466);
         }
+
         img {
             display: block;
             width: 180%;
         }
-        #storyBox{
+
+        #storyBox {
             background-image: url("/static/paper.jpg");
             padding: 20px;
             max-width: 400px;
             border-radius: 5px;
         }
-        #loading{
+
+        #loading {
             position: fixed;
             position: fixed;
             top: 50%;
@@ -168,125 +182,36 @@
             height: 100%;
             background-color: #333333a2;
         }
-
     </style>
 </head>
+
 <body>
-    <div  style="display: flex; flex-direction: column;">
-    <div class="video-container">
-        <!-- 
+    <div style="display: flex; flex-direction: column;">
+        <div class="video-container">
+            <!-- 
           The 'src' attribute points to our /video_feed endpoint.
           The url_for('video_feed') is a Flask function that generates the correct URL.
         -->
-        <img src="{{ url_for('video_feed') }}" alt="Video Stream">
+            <img src="{{ url_for('video_feed') }}" alt="Video Stream">
+        </div>
+        <div style="display: flex; flex-direction: column;">
+            <audio id="sfx" src="{{ url_for('static', filename='sword.wav') }}" preload="auto"></audio>
+            <audio id="bgMusic" src="{{ url_for('static', filename='bg.wav') }}" preload="auto" loop></audio>
+
+            <button id="picBtn">Take a picture!</button>
+
+            <script src="https://js.puter.com/v2/"></script>
+            <button onclick="loadingFunction(callGenerateStoryFunc())">Story Time!</button>
+            <button id="speak">Speak</button>
+        </div>
     </div>
-    <div style="display: flex; flex-direction: column;">
-<audio id="sfx" src="{{ url_for('static', filename='sword.wav') }}" preload="auto"></audio>
-<audio id="bgMusic" src="{{ url_for('static', filename='bg.wav') }}" preload="auto" loop></audio>
-
-<button id="picBtn">Take a picture!</button>
-
-<script>
-const sfx = document.getElementById("sfx");
-
-document.getElementById("picBtn").addEventListener("click", () => {
-    // Force restart from beginning
-    sfx.currentTime = 0;
-    sfx.play().catch(err => console.log("Audio error:", err));
-
-    fetch("/take_picture_func")
-        .then(r => r.text())
-        .then(t => console.log(t));
-});
-</script>
-
-    <script src="https://js.puter.com/v2/"></script>
-    <button onclick="loadingFunction(callGenerateStoryFunc())">Story Time!</button>
-    <button id="speak">Speak</button>
-    </div>
-    </div>
-        <div style="display: flex; flex-direction: column; visibility: hidden;" >
-    <button >Take ic</button>
-    <button >Stordf</button>
-    <button >Spesdd</button>
+    <div style="display: flex; flex-direction: column; visibility: hidden;">
+        <button>Take ic</button>
+        <button>Stordf</button>
+        <button>Spesdd</button>
     </div>
 
     <div id="storyBox">hi</div>
-    
-
-    
-
-    <script>
-        var storyData = {{ storyData|tojson }};
-
-        document.getElementById("storyBox").innerText = storyData;
-
- let isTTSGenerated = false;
-let isPlaying = false;
-let i = 0;
-let audio;
-const bgMusic = document.getElementById("bgMusic");
-
-document.getElementById("speak").onclick = async () => {
-    let t = storyData;
-
-    if (!isTTSGenerated){
-        i++;
-        try {
-            //puter.auth.signIn()
-            //document.getElementById("storyBox").innerText = "WHAT";
-            audio = await puter.ai.txt2speech(t, {
-                voice: "Geraint",
-                language: "en-GB-WLS"
-            });
-            //document.getElementById("storyBox").innerText = "BOO";
-
-            // Start both
-            audio.currentTime = 0;
-            bgMusic.currentTime = 0;
-
-            audio.play();
-            bgMusic.play();
-
-            document.getElementById("speak").innerText = "Pause";
-            isPlaying = true;   
-            isTTSGenerated = true;   
-
-        } catch (err) {
-            console.log("TTS error:", err);
-        }
-
-    } else {
-        if (isPlaying) {
-            // Pause both
-            audio.pause();
-            bgMusic.pause();
-
-            document.getElementById("speak").innerText = "Unpause";
-            isPlaying = false;
-
-        } else {
-            // Resume both
-            audio.play();
-            bgMusic.play();
-
-            document.getElementById("speak").innerText = "Pause";
-            isPlaying = true;
-        }
-    }
-};
-
-
-    function callGenerateStoryFunc() {
-        fetch("/generate_story_func")
-            .then(r => r.text())
-            .then(t => console.log(t))
-    }
-
-
-    </script>
-
-
 
     <div id="help-icon">?</div>
 
@@ -304,35 +229,113 @@ document.getElementById("speak").onclick = async () => {
         <h1 style="color: white;">Gemini is Loading</h1>
     </div>
 
-<script>
-    let loadingScreen =  document.getElementById("loading");
-        let loadingFunction = (promise) => {
-           loadingScreen.style.zIndex = "1000"
-           loadingScreen.style.visibility = "visible"
-           setTimeout(() => {
-                loadingScreen.style.zIndex = "-1"
-                loadingScreen.style.visibility = "hidden"
-           }, 10000);
-
+    <script>
+        //Loading screen method which only takes a promise to be called at the same time
+        //as a method, assumes that page will be reloaded to clear the duck
+        let loadingScreen = document.getElementById("loading");
+        let loadingFunction = async (promise) => {
+            loadingScreen.style.zIndex = "1000"
+            loadingScreen.style.visibility = "visible"
         }
-document.addEventListener("DOMContentLoaded", () => {
-    const helpIcon = document.getElementById("help-icon");
-    const helpPopup = document.getElementById("help-popup");
-    const closeHelp = document.getElementById("close-help");
 
-    console.log(helpIcon, helpPopup, closeHelp); // debug
+        
+        const sfx = document.getElementById("sfx");
+        document.getElementById("picBtn").addEventListener("click", async () => {
+            // Force restart from beginning
+            sfx.currentTime = 0;
+            sfx.play().catch(err => console.log("Audio error:", err));
 
-    helpIcon.addEventListener("click", () => {
-        helpPopup.style.display = "block";
-    });
+            let r = await fetch("/take_picture_func")
+            let t = await r.text()
+            console.log(t)
+        });
 
-    closeHelp.addEventListener("click", () => {
-        helpPopup.style.display = "none";
-    });
-});
-document.title = "Reading Crystal Ball";
-</script>
+        //The fetch instruction
+        async function callGenerateStoryFunc() {
+            let r = await fetch("/generate_story_func")
+            let t = await r.text()
+            console.log(t)
+            window.location.reload(true);
+            return t
+        }
+
+        //Have Flask import story data from output.txt
+        var storyData = {{ storyData| tojson }};
+        document.getElementById("storyBox").innerText = storyData;
+
+        //Method for handling the tts and background music
+        let isTTSGenerated = false;
+        let isPlaying = false;
+        let i = 0;
+        let audio;
+        const bgMusic = document.getElementById("bgMusic");
+        document.getElementById("speak").onclick = async () => {
+            let t = storyData;
+
+            if (!isTTSGenerated) {
+                i++;
+                try {
+                    //puter.auth.signIn()
+                    //document.getElementById("storyBox").innerText = "WHAT";
+                    audio = await puter.ai.txt2speech(t, {
+                        voice: "Geraint",
+                        language: "en-GB-WLS"
+                    });
+                    //document.getElementById("storyBox").innerText = "BOO";
+
+                    // Start both
+                    audio.currentTime = 0;
+                    bgMusic.currentTime = 0;
+
+                    audio.play();
+                    bgMusic.play();
+
+                    document.getElementById("speak").innerText = "Pause";
+                    isPlaying = true;
+                    isTTSGenerated = true;
+
+                } catch (err) {
+                    console.log("TTS error:", err);
+                }
+
+            } else {
+                if (isPlaying) {
+                    // Pause both
+                    audio.pause();
+                    bgMusic.pause();
+
+                    document.getElementById("speak").innerText = "Unpause";
+                    isPlaying = false;
+
+                } else {
+                    // Resume both
+                    audio.play();
+                    bgMusic.play();
+
+                    document.getElementById("speak").innerText = "Pause";
+                    isPlaying = true;
+                }
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const helpIcon = document.getElementById("help-icon");
+            const helpPopup = document.getElementById("help-popup");
+            const closeHelp = document.getElementById("close-help");
+
+            console.log(helpIcon, helpPopup, closeHelp); // debug
+
+            helpIcon.addEventListener("click", () => {
+                helpPopup.style.display = "block";
+            });
+
+            closeHelp.addEventListener("click", () => {
+                helpPopup.style.display = "none";
+            });
+        });
+    </script>
 
 
 </body>
+
 </html>
