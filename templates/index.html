@@ -46,6 +46,21 @@
             max-width: 400px;
             border-radius: 5px;
         }
+        #loading{
+            position: fixed;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            visibility: hidden;
+            display: grid;
+            place-content: center;
+            place-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: #333333a2;
+        }
     </style>
 </head>
 <body>
@@ -66,11 +81,16 @@
     }
     </script>
     <script src="https://js.puter.com/v2/"></script>
-    <button onclick="callGenerateStoryFunc()">Story Time!</button>
+    <button onclick="loading(callGenerateStoryFunc())">Story Time!</button>
     <button id="speak">Speak</button>
     </div>
 
     <div id="storyBox">hi</div>
+    <div id="loading">
+        <img src="/static/goose.gif" style="width: 150px; border-radius: 25px;">
+        <h1 style="color: white;">Gemini is Loading</h1>
+    </div>
+    
     
 <img src="https://thispersondoesnotexist.com/" style="width:150px; height:auto;">
     
@@ -85,6 +105,14 @@
         let isPlaying = false;
         let i = 0;
         let audio;
+        let loadingScreen =  document.getElementById("loading");
+        let loading = async (promise) => {
+           loadingScreen.style.zIndex = "1000"
+           loadingScreen.style.visibility = "visible"
+           await promise;
+           loadingScreen.style.zIndex = "-1"
+           loadingScreen.style.visibility = "hidden"
+        }
         document.getElementById("speak").onclick = async () => {
             let t = storyData;
 
