@@ -20,7 +20,7 @@ def generateFantasyStory():
             images_array.append(Image.open(filename))
             os.remove(filename)
 
-prompt = (
+    prompt = (
         "You are a friendly storyteller for children.\n"
         "Write ONE short, kid-friendly fantasy paragraph (4–6 simple sentences) "
         "inspired by the objects in these images. "
