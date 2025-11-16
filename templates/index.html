@@ -8,6 +8,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenCV Live Stream</title>
     <style>
+       
+        #help-icon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(#5c3b24, #3a2416);
+            border: 3px solid #d4b27f;
+            border-radius: 8px;
+            font-family: "Cinzel", serif;
+            color: #f5e4c3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #2a1a10;
+            transition: 0.15s;
+        }
+
+        #help-icon:hover {
+            background: linear-gradient(#6e472b, #47301f);
+            box-shadow: 0 6px 0 #2a1a10, 0 0 12px rgba(212,178,127,0.6);
+            transform: translateY(-2px);
+        }
+
+
+        #help-popup {
+            position: fixed;
+            top: 80px;
+            left: 30px;
+            width: 300px;
+            background: linear-gradient(#4d2f1d, #2d1a11);
+            border: 3px solid #d4b27f;
+            border-radius: 12px;
+            padding: 20px;
+            color: #f5e4c3;
+            font-family: "Cinzel", serif;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            display: none;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        #help-popup h2 {
+            margin-top: 0;
+            font-size: 20px;
+            text-align: center;
+            color: #f5e4c3;
+        }
+
+        #help-popup ul {
+            padding-left: 20px;
+            font-size: 16px;
+        }
+
+        #close-help {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            color:#2a1a10;
+            font-family: "Cinzel", serif;
+            background: #d4b27f;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #close-help:hover {
+            background: #e8cfa0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
         body {
             gap: 30px;
             font-family: "Cinzel", serif;
@@ -20,15 +98,44 @@
             color: black;
             margin: 0;
             background-image: url("/static/background.png");
+            background-position: center center;
+            background-size: cover;
             cursor: url(http://www.rw-designer.com/cursor-extern.php?id=237439), default;
         }
         h1 {
             color: #333;
         }
+    button {
+        margin: 10px;
+        font-size: 24px;
+        padding: 12px 28px;
+        font-family: "Cinzel", serif;
+        background: linear-gradient(#5c3b24, #3a2416); /* dark wood */
+        border: 3px solid #d4b27f; /* gold trim */
+        border-radius: 10px;
+        color: #f5e4c3;
+        text-shadow: 0 0 3px #000;
+        box-shadow: 0 4px 0 #2a1a10, 0 6px 12px rgba(0,0,0,0.4);
+        cursor: pointer;
+        transition: 0.15s;
+    }
+
+    button:hover {
+        background: linear-gradient(#6e472b, #47301f);
+        box-shadow: 0 6px 0 #2a1a10, 0 10px 16px rgba(0,0,0,0.5),
+                    0 0 12px rgba(212,178,127,0.6);
+        transform: translateY(-2px);
+    }
+
+    button:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 #2a1a10, 0 4px 8px rgba(0,0,0,0.4);
+    }
+
         .video-container {
             display: grid;
             place-content: center;
-            border: 5px solid #ccc;
+            border: 5px solid #d4b27f;
             aspect-ratio: 1;
             height: fit-content;
             width: 300px;
@@ -64,6 +171,7 @@
     </style>
 </head>
 <body>
+    <div  style="display: flex; flex-direction: column;">
     <div class="video-container">
         <!-- 
           The 'src' attribute points to our /video_feed endpoint.
@@ -84,6 +192,12 @@
     <button onclick="loadingFunction(callGenerateStoryFunc())">Story Time!</button>
     <button id="speak">Speak</button>
     </div>
+    </div>
+        <div style="display: flex; flex-direction: column; visibility: hidden;" >
+    <button >Take ic</button>
+    <button >Stordf</button>
+    <button >Spesdd</button>
+    </div>
 
     <div id="storyBox">hi</div>
     <div id="loading">
@@ -92,7 +206,6 @@
     </div>
     
     
-<img src="https://thispersondoesnotexist.com/" style="width:150px; height:auto;">
     
     
 
@@ -164,6 +277,42 @@
             .then(r => r.text())
             .then(t => console.log(t))
     }
+
+
     </script>
+
+
+
+    <div id="help-icon">?</div>
+
+    <div id="help-popup">
+        <h2>How to Use This App</h2>
+        <ul>
+            <li>📸 <strong>Take Pics</strong> : Use the “Take Picture” button to capture images.</li>
+            <li>📝 <strong>Generate Story</strong> : We will generate a story.</li>
+            <li>🔊 <strong>Speak Story</strong> : Click the “Speak Story” button to hear it read aloud.</li>
+        </ul>
+        <button id="close-help">Close</button>
+    </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const helpIcon = document.getElementById("help-icon");
+    const helpPopup = document.getElementById("help-popup");
+    const closeHelp = document.getElementById("close-help");
+
+    console.log(helpIcon, helpPopup, closeHelp); // debug
+
+    helpIcon.addEventListener("click", () => {
+        helpPopup.style.display = "block";
+    });
+
+    closeHelp.addEventListener("click", () => {
+        helpPopup.style.display = "none";
+    });
+});
+</script>
+
+
 </body>
 </html>

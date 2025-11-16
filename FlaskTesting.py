@@ -25,6 +25,7 @@ def generate_frames():
         else:
             # Encode the frame in JPEG format
             # .jpg is used for streaming as it's efficient
+            frame = cv2.flip(frame, 1)
             ret, buffer = cv2.imencode('.jpg', frame)
             global image 
             image = frame

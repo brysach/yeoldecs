@@ -18,13 +18,13 @@ def generateFantasyStory():
         if image_name.endswith(".png"):
             filename = os.path.join(folder_dir, image_name)
             images_array.append(Image.open(filename))
-            #os.remove(filename)
+            os.remove(filename)
 
 
 
     response = client.models.generate_content(
         model = "gemini-2.5-flash",
-        contents = ["Can you make up a three paragraph fantasy story based off these images, focusing on the items", images_array]
+        contents = ["Can you make up a one conclusive paragraph fantasy story based off these images, focusing on the items", images_array]
     )
 
     story_text = response.text
